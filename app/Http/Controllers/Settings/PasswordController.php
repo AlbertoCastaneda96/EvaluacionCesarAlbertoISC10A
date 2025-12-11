@@ -29,9 +29,9 @@ class PasswordController extends Controller
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
-        $request->user()->update([
-            'password' => $validated['password'],
-        ]);
+       $request->user()->update([
+    'password' => bcrypt($validated['password']),
+]);
 
         return back();
     }
