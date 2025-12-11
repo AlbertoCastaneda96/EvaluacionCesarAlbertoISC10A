@@ -3,26 +3,32 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
+use App\Models\Permission;
 
 class PermissionsSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        $permisos = [
-            'ver usuarios',
-            'crear usuarios',
-            'editar usuarios',
-            'eliminar usuarios',
+        $perms = [
+            'ver_usuarios',
+            'ver_roles',
+            'ver_permisos',
 
-            'ver roles',
-            'crear roles',
-            'editar roles',
-            'eliminar roles',
+            'crear_usuario',
+            'crear_role',
+            'crear_permiso',
+
+            'editar_usuario',
+            'editar_role',
+            'editar_permiso',
+
+            'eliminar_usuario',
+            'eliminar_role',
+            'eliminar_permiso',
         ];
 
-        foreach ($permisos as $permiso) {
-            Permission::firstOrCreate(['name' => $permiso]);
+        foreach ($perms as $p) {
+            Permission::firstOrCreate(['name' => $p]);
         }
     }
 }

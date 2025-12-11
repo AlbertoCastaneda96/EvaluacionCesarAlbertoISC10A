@@ -4,31 +4,36 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
-class UserSeeder extends Seeder
+class UsersSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        // Usuario administrador
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@example.com'],
+        // Asegurarse que existe rol super_admin
+        $super = Role::firstOrCreate(['name' => 'super_admin']);
+
+        $sa = User::firstOrCreate(
+            ['email' => 'sa@example.com'],
             [
-                'name' => 'Administrador',
-                'password' => bcrypt('admin123'),
+                'name' => 'sa',
+                'password' => Hash::make('12345678'),
+                'role_id' => $super->id,
             ]
         );
 
-        $admin->assignRole('admin');
-
-        // Usuario normal
-        $user = User::firstOrCreate(
-            ['email' => 'user@example.com'],
-            [
-                'name' => 'Usuario Normal',
-                'password' => bcrypt('user123'),
-            ]
-        );
-
-        $user->assignRole('usuario');
+        // Puedes crear más usuarios si quieres
+        $adminRole = Role::where('name','admin')->first();
+        if ($adminRole) {
+            User::firstOrCreate(
+                ['email' => 'admin@example.com'],
+                [
+                    'name' => 'Administrador',
+                    'password' => Hash::make('admin123'),
+                    'role_id' => $adminRole->id,
+                ]
+            );
+        }
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -33,15 +34,22 @@ class User extends Authenticatable
         ];
     }
 
-    // Relación con la tabla roles
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
 
-    // Validar rol
+    // checar rol simple
     public function hasRole(string $roleName): bool
     {
-        return $this->role?->name === $roleName;
+        return isset($this->role) && Str::lower($this->role->name) === Str::lower($roleName);
+    }
+
+    // checar permiso vía rol
+    public function hasPermission(string $permissionName): bool
+    {
+        if (!$this->role) return false;
+        return $this->role->permissions->contains(fn($p) => Str::lower($p->name) === Str::lower($permissionName));
     }
 }
+
