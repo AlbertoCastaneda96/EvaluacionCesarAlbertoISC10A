@@ -30,7 +30,7 @@ class UsersSeeder extends Seeder
                 ['email' => 'admin@example.com'],
                 [
                     'name' => 'Administrador',
-                    'password' => Hash::make('admin123'),
+                    'password' => bcrypt('12345678'),
                     'role_id' => $adminRole->id,
                 ]
             );
