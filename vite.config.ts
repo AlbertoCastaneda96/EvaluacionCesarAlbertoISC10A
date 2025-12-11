@@ -19,6 +19,7 @@ export default defineConfig({
         tailwindcss(),
         wayfinder({
             formVariants: true,
+            generateOnSave: false, 
         }),
     ],
     esbuild: {
